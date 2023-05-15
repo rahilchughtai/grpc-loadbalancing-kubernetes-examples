@@ -1,8 +1,13 @@
-FROM microsoft/dotnet:2.0-sdk
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
+COPY . ./
 
-COPY . /app
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
 
-RUN dotnet publish -o out -c Release -f netcoreapp2.0 GreeterClient.csproj
-
-ENTRYPOINT ["dotnet", "exec", "/app/out/GreeterClient.dll"]
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "GreeterClient.Docker.dll"]

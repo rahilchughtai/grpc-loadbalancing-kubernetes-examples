@@ -5,7 +5,8 @@ metadata:
 spec:
   containers:
   - name: greeter-client-round-robin
-    image: gcr.io/grpc-loadbalancing-demo2018/greeter_client:latest
+    image: greeter_client:latest
+    imagePullPolicy: Never
     env:
     # Resolve backend IP using cluster-internal DNS name of the backend service
     - name: GREETER_SERVICE_TARGET

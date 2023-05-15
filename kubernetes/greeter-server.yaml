@@ -15,12 +15,17 @@ spec:
   selector:
     app: greeter-server
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: greeter-server
+  labels:
+    app: greeter-server
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+        app: greeter-server
   template:
     metadata:
       labels:
@@ -28,7 +33,8 @@ spec:
     spec:
       containers:
       - name: greeter-server
-        image: gcr.io/grpc-loadbalancing-demo2018/greeter_server:latest
+        image: greeter_server:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 8000
         env:

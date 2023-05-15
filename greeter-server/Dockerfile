@@ -1,4 +1,5 @@
-FROM microsoft/dotnet:2.0-sdk
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+
 WORKDIR /app
 
 ADD . /app
