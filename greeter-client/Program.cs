@@ -32,7 +32,9 @@ namespace GreeterClient
                 channelOptions.Add(new ChannelOption("grpc.lb_policy_name", lbPolicyName));
             }
 
-            var channelTarget = Environment.GetEnvironmentVariable("GREETER_SERVICE_TARGET");
+           var channelTarget = Environment.GetEnvironmentVariable("GREETER_SERVICE_TARGET");
+           // var channelTarget = Environment.GetEnvironmentVariable("GREETER_SERVICE_TARGET");
+
             Console.WriteLine("Creating channel with target " + channelTarget);
 
             // Resolve backend IP using cluster-internal DNS name of the backend service
@@ -40,18 +42,18 @@ namespace GreeterClient
 
             var client = new Greeter.GreeterClient(channel);
             String user = "you";
-            
+
             for (int i = 0; i < 10000; i++)
             {
                 try {
                   var reply = client.SayHello(new HelloRequest { Name = user });
                   Console.WriteLine("Greeting: " + reply.Message);
-                } 
+                }
                 catch (RpcException e)
                 {
                    Console.WriteLine("Error invoking greeting: " + e.Status);
                 }
-                
+
                 Thread.Sleep(1000);
             }
             channel.ShutdownAsync().Wait();
