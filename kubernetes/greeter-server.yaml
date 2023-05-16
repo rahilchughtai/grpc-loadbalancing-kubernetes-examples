@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: greeter-server
-        image: greeter_server:latest
+        image: rchughtai/grpc:server
         imagePullPolicy: Never
         ports:
         - containerPort: 8000
